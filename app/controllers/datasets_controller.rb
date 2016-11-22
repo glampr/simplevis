@@ -69,6 +69,8 @@ class DatasetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def dataset_params
-      params.require(:dataset).permit(:name, :datasource, :active, :style, :format)
+      dataset = params.require(:dataset).permit(:name, :datasource, :active, :style, :format)
+      dataset[:style] = JSON.parse(dataset[:style]) rescue dataset[:style] = nil
+      dataset
     end
 end

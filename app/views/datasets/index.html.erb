@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Datasets</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Datasource</th>
+      <th>Active</th>
+      <th>Style</th>
+      <th>Format</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @datasets.each do |dataset| %>
+      <tr>
+        <td><%= dataset.name %></td>
+        <td><%= dataset.datasource %></td>
+        <td><%= dataset.active %></td>
+        <td><%= dataset.style %></td>
+        <td><%= dataset.format %></td>
+        <td><%= link_to 'Show', dataset %></td>
+        <td><%= link_to 'Edit', edit_dataset_path(dataset) %></td>
+        <td><%= link_to 'Destroy', dataset, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Dataset', new_dataset_path %>

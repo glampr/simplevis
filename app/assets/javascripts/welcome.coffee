@@ -16,4 +16,20 @@ jQuery ->
   })
   map.addLayer(osm)
 
-  
+  $('.btn-load-dataset').click((event) ->
+    event.preventDefault()
+
+    button = $(this)
+    datasetId = button.attr('id')
+    console.log "Clicked dataset: #{datasetId}"
+
+    # Load geobjects of dataset
+    $.getJSON("/datasets/#{datasetId}.json", (data) ->
+      console.log data
+      L.geoJSON(data.feature_collection, {
+        onEachFeature: (feature, layer) ->
+          if (feature.properties && feature.properties)
+            layer.bindPopup(JSON.stringify(feature.properties, null, 2).replace(/\n/g, '<br>'));
+      }).addTo(map);
+    )
+  )

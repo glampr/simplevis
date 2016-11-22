@@ -10,6 +10,8 @@ class DatasetsController < ApplicationController
   # GET /datasets/1
   # GET /datasets/1.json
   def show
+    Geobject.store_in collection: @dataset.datasource
+    @geobjects = Geobject.limit(10)
   end
 
   # GET /datasets/new

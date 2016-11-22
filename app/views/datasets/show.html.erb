@@ -25,5 +25,22 @@
   <%= @dataset.format %>
 </p>
 
+<h2>First 10 documents</h2>
+
+<div style="float:left; width:100%">
+  <% @geobjects.each do |geobject| %>
+    <div style="float:left; width: 50%;">
+      <div style="border:1px solid blue; padding: 5px 10px; margin: 5px;">
+        <% geobject.as_document.each do |gobj_key, gobj_val| %>
+          <strong> <%= gobj_key %> </strong> : <%= gobj_val %> <br>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div style="clearfix:both">
+</div>
+
 <%= link_to 'Edit', edit_dataset_path(@dataset) %> |
 <%= link_to 'Back', datasets_path %>

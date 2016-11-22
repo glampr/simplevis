@@ -1,28 +1,6 @@
-== README
+== SimpleVis
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple Rails app to visualize geospatial data from a MongoDB database.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+It works by creating a dataset, which contains information about where to find the geospatial geojson objects, then query them and display the results on a Leaflet JS map.
+Optionally it supports filtering the displayed results by querying the MongoDB collection directly.

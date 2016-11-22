@@ -6,30 +6,44 @@ jQuery ->
 
   console.log 'Page loaded!'
 
-  map = L.map('mapid').setView([40.75, -74.00], 12)
+  if $('#mapid').length > 0
 
-  # OSM Tile layer
-  osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    minZoom: 4,
-    maxZoom: 16,
-    attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
-  })
-  map.addLayer(osm)
+    map = L.map('mapid').setView([40.75, -74.00], 12)
 
-  $('.btn-load-dataset').click((event) ->
-    event.preventDefault()
+    # OSM Tile layer
+    osm = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      minZoom: 4,
+      maxZoom: 16,
+      attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    })
+    map.addLayer(osm)
 
-    button = $(this)
-    datasetId = button.attr('id')
-    console.log "Clicked dataset: #{datasetId}"
+    geojsonMarkerOptions = {
+      radius: 8,
+      fillColor: "#ff7800",
+      weight: 4,
+      opacity: 1,
+      fillOpacity: 0.8
+    }
 
-    # Load geobjects of dataset
-    $.getJSON("/datasets/#{datasetId}.json", (data) ->
-      console.log data
-      L.geoJSON(data.feature_collection, {
-        onEachFeature: (feature, layer) ->
-          if (feature.properties && feature.properties)
-            layer.bindPopup(JSON.stringify(feature.properties, null, 2).replace(/\n/g, '<br>'));
-      }).addTo(map);
+    $('.btn-load-dataset').click((event) ->
+      event.preventDefault()
+
+      button = $(this)
+      datasetId = button.attr('id')
+      console.log "Clicked dataset: #{datasetId}"
+
+      # Load geobjects of dataset
+      $.getJSON("/datasets/#{datasetId}.json", (data) ->
+        console.log data
+        L.geoJSON(data.feature_collection, {
+          style: data.style,
+          pointToLayer: (feature, latlng) ->
+            L.circleMarker(latlng, geojsonMarkerOptions)
+          ,
+          onEachFeature: (feature, layer) ->
+            if (feature.properties && feature.properties)
+              layer.bindPopup(JSON.stringify(feature.properties, null, 2).replace(/\n/g, '<br>'));
+        }).addTo(map);
+      )
     )
-  )

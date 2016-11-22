@@ -14,6 +14,12 @@ class DatasetsController < ApplicationController
     @geobjects = Geobject.limit(10)
     if !params[:query].blank?
       query = JSON.parse(params[:query]) rescue query = {}
+      query.each do |qk, qv|
+        if qv.to_s.starts_with?("/") && qv.to_s.ends_with?("/")
+          puts qv[1..-2]
+          query[qk] = Regexp.new(qv[1..-2], "i")
+        end
+      end
       @geobjects = @geobjects.where(query)
     end
   end

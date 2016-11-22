@@ -33,8 +33,17 @@ jQuery ->
       datasetId = button.attr('id')
       console.log "Clicked dataset: #{datasetId}"
 
+      query = $('#query').val().trim()
+      if query.length > 0
+        try
+          JSON.parse(query)
+        catch error
+          console.warn error
+          alert "Query contains invalid JSON!"
+          return
+
       # Load geobjects of dataset
-      $.getJSON("/datasets/#{datasetId}.json", (data) ->
+      $.getJSON("/datasets/#{datasetId}.json", {query: query}, (data) ->
         console.log data
         L.geoJSON(data.feature_collection, {
           style: data.style,

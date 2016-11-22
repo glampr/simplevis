@@ -3,8 +3,12 @@
 <div id="mapid">
 </div>
 
-<div style="margin:10px">
+<div style="margin:10px 0">
   <% @datasets.each do |dataset| %>
     <%= link_to dataset.name, "#", id: dataset.id, class: "btn-load-dataset" %>
   <% end %>
+</div>
+
+<div>
+  <input type="text" name="query" id="query" value="" style="width:50%">
 </div>

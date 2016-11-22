@@ -12,6 +12,10 @@ class DatasetsController < ApplicationController
   def show
     Geobject.store_in collection: @dataset.datasource
     @geobjects = Geobject.limit(10)
+    if !params[:query].blank?
+      query = JSON.parse(params[:query]) rescue query = {}
+      @geobjects = @geobjects.where(query)
+    end
   end
 
   # GET /datasets/new

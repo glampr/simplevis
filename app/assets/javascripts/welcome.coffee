@@ -43,7 +43,8 @@ jQuery ->
           ,
           onEachFeature: (feature, layer) ->
             if (feature.properties && feature.properties)
-              layer.bindPopup(JSON.stringify(feature.properties, null, 2).replace(/\n/g, '<br>'));
+              popupContent = if feature.properties.description then feature.properties.description else JSON.stringify(feature.properties, null, 2).replace(/\n/g, '<br>')
+              layer.bindPopup(popupContent)
         }).addTo(map);
       )
     )
